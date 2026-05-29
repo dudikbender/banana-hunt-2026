@@ -50,7 +50,7 @@ export const HUNT_LOCATIONS: HuntLocation[] = [
     icon: "banana",
   },
   {
-    id: "trilliu,",
+    id: "trillium",
     name: "Trillium",
     description: "Upscale drinks for low-brow people.",
     longitude: -71.10305212826928,
@@ -58,11 +58,11 @@ export const HUNT_LOCATIONS: HuntLocation[] = [
     icon: "banana",
   },
   {
-    id: "bleacher-bar",
-    name: "Bleacher Bar",
+    id: "fenway-grill",
+    name: "Fenway Bar & Grill",
     description: "The Fenway Faithful are truly bananas.",
-    longitude: -71.09676547554166,
-    latitude: 42.347114844190635,
+    longitude: -71.0993234560284,
+    latitude: 42.34297505257703,
     icon: "banana",
   },
   {

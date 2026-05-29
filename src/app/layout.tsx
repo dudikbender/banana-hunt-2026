@@ -12,9 +12,31 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const siteDescription =
+  "The Hunt is on. Find the banana at stops around Fenway, mark your progress, and get that banana.";
+
 export const metadata: Metadata = {
-  title: "Banana Hunt 2026",
-  description: "Next.js app with Zustand, Mapbox, and shadcn/ui",
+  metadataBase: process.env.NEXT_PUBLIC_APP_URL
+    ? new URL(process.env.NEXT_PUBLIC_APP_URL)
+    : undefined,
+  title: {
+    default: "Boston Banana Hunt 2026",
+    template: "%s · Banana Hunt 2026",
+  },
+  description: siteDescription,
+  applicationName: "Banana Hunt 2026",
+  openGraph: {
+    title: "Boston Banana Hunt 2026: Going Yard 🍌",
+    description: siteDescription,
+    type: "website",
+    locale: "en_US",
+    siteName: "Banana Hunt 2026",
+  },
+  twitter: {
+    card: "summary",
+    title: "Boston Banana Hunt 2026: Going Yard 🍌",
+    description: siteDescription,
+  },
 };
 
 export default function RootLayout({
