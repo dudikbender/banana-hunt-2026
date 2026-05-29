@@ -71,6 +71,8 @@ export function LocationPanel() {
   );
   const firstName = participantName?.split(" ")[0];
 
+  const toggleCollapsed = () => setCollapsed((open) => !open);
+
   const handleLogOut = () => {
     clearParticipant();
     resetVisited();
@@ -82,16 +84,17 @@ export function LocationPanel() {
     <Card
       className={cn(
         "pointer-events-auto absolute bottom-4 left-1/2 z-10 flex w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 flex-col border-border/60 bg-background/90 shadow-lg backdrop-blur-sm",
-        "md:top-4 md:bottom-4",
         !collapsed && "top-4",
       )}
     >
-      <CardHeader
-        className="shrink-0 pb-3"
-        onClick={() => setCollapsed((open) => !open)}
-      >
+      <CardHeader className="shrink-0 pb-3">
         <div className="flex items-start gap-2">
-          <div className="min-w-0 flex-1">
+          <button
+            type="button"
+            className="min-w-0 flex-1 text-left"
+            aria-expanded={!collapsed}
+            onClick={toggleCollapsed}
+          >
             <CardTitle>🍌 Banana Hunt 2026 🍌</CardTitle>
             <CardDescription>
               {unvisitedCount === 0
@@ -102,33 +105,31 @@ export function LocationPanel() {
                   ? `${firstName}, ${unvisitedCount} location${unvisitedCount === 1 ? "" : "s"} left to check!`
                   : `${unvisitedCount} location${unvisitedCount === 1 ? "" : "s"} left to check!`}
             </CardDescription>
-          </div>
-          <div className="flex shrink-0 items-center gap-1">
-            <Button
-              type="button"
-              variant="ghost"
-              size="icon-sm"
-              className="md:hidden"
-              aria-expanded={!collapsed}
-              aria-label={
-                collapsed ? "Expand location list" : "Collapse location list"
-              }
-              onClick={() => setCollapsed((open) => !open)}
-            >
-              <ChevronUp
-                className={cn(
-                  "size-4 transition-transform duration-200",
-                  !collapsed && "rotate-180",
-                )}
-              />
-            </Button>
-          </div>
+          </button>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon-sm"
+            className="shrink-0"
+            aria-expanded={!collapsed}
+            aria-label={
+              collapsed ? "Expand location list" : "Collapse location list"
+            }
+            onClick={toggleCollapsed}
+          >
+            <ChevronUp
+              className={cn(
+                "size-4 transition-transform duration-200",
+                !collapsed && "rotate-180",
+              )}
+            />
+          </Button>
         </div>
       </CardHeader>
       <CardContent
         className={cn(
           "flex min-h-0 flex-1 flex-col gap-3",
-          collapsed ? "hidden md:flex" : "flex",
+          collapsed && "hidden",
         )}
       >
         <ul className="min-h-0 flex-1 space-y-1 overflow-y-auto pr-1">

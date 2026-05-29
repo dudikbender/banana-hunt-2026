@@ -99,9 +99,7 @@ export function ParticipantDialog() {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="participant-email">
-              Your email - or someone's you hate - (optional)
-            </Label>
+            <Label htmlFor="participant-email">Your email (optional)</Label>
             <Input
               id="participant-email"
               name="email"
