@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 
+import appIcon from "@/app/icon.png";
 import { subscribeParticipant } from "@/lib/subscribe-participant";
 import {
   selectHasJoined,
@@ -75,7 +77,13 @@ export function ParticipantDialog() {
   return (
     <Dialog open={!hasJoined}>
       <DialogContent showCloseButton={false} className="sm:max-w-md">
-        <DialogHeader>
+        <DialogHeader className="items-center text-center">
+          <Image
+            src={appIcon}
+            alt="Boston Banana Hunt"
+            className="size-40 object-contain mb-4"
+            priority
+          />
           <DialogTitle>Boston Banana Hunt 2026: Going Yard 🍌</DialogTitle>
           <DialogDescription>
             What kind of person hunts bananas? Peel back some layers to join the
@@ -118,9 +126,13 @@ export function ParticipantDialog() {
           )}
 
           <DialogFooter className="border-t-0 bg-transparent p-2 sm:justify-stretch">
-            <Button type="submit" className="w-full" disabled={submitting}>
-              <span className="text-base">
-                {submitting ? "Joining..." : "🍌 Happy hunting!"}
+            <Button
+              type="submit"
+              className="h-auto w-full hover:cursor-pointer py-2"
+              disabled={submitting}
+            >
+              <span className="text-lg font-medium">
+                {submitting ? "Joining..." : "🍌 Happy Hunting!"}
               </span>
             </Button>
           </DialogFooter>

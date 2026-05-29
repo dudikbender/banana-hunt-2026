@@ -11,8 +11,8 @@ export const HOME_LOCATION: HuntLocation = {
   id: "home",
   name: "Outpost",
   description: "Cisco Brewing",
-  longitude: -71.0958,
-  latitude: 42.3463,
+  longitude: -71.09838108115827,
+  latitude: 42.34467477376336,
   icon: "house",
 };
 

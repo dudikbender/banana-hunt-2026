@@ -52,7 +52,7 @@ export const useMapStore = create<MapState>((set) => ({
       selectedLocationId: location.id,
       longitude: location.longitude,
       latitude: location.latitude,
-      zoom: 15,
+      zoom: 18,
     }),
 
   resetViewport: () =>
