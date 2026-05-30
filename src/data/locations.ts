@@ -9,10 +9,10 @@ export interface HuntLocation {
 
 export const HOME_LOCATION: HuntLocation = {
   id: "home",
-  name: "Outpost",
-  description: "Cisco Brewing",
-  longitude: -71.09838108115827,
-  latitude: 42.34467477376336,
+  name: "Hojuku",
+  description: "Hojuku",
+  longitude: -71.09663605567268,
+  latitude: 42.345065728326354,
   icon: "house",
 };
 
@@ -87,14 +87,6 @@ export const HUNT_LOCATIONS: HuntLocation[] = [
     description: "Get it on, you got to get it on.",
     longitude: -71.09833775888028,
     latitude: 42.347052484705166,
-    icon: "banana",
-  },
-  {
-    id: "sojuba",
-    name: "SOJUba",
-    description: "Fusion - cause we're classy like that.",
-    longitude: -71.09637067391346,
-    latitude: 42.345208063332855,
     icon: "banana",
   },
 ];
