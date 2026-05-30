@@ -7,14 +7,79 @@ export interface HuntLocation {
   icon?: "banana" | "house";
 }
 
-export const HOME_LOCATION: HuntLocation = {
-  id: "home",
-  name: "Hojuku",
-  description: "Hojuku",
-  longitude: -71.09663605567268,
-  latitude: 42.345065728326354,
-  icon: "house",
-};
+export interface HomeLocationOption {
+  id: string;
+  name: string;
+  description: string;
+  longitude: number;
+  latitude: number;
+}
+
+export const HOME_LOCATION_OPTIONS: HomeLocationOption[] = [
+  {
+    id: "hojuku",
+    name: "Hojuku",
+    description: "Start the hunt from Hojuku.",
+    longitude: -71.09663605567268,
+    latitude: 42.345065728326354,
+  },
+  {
+    id: "cisco-outpost",
+    name: "Cisco Brewing Outpost",
+    description: "Meet at the Cisco Brewing outpost.",
+    longitude: -71.09839180999428,
+    latitude: 42.34469063325755,
+  },
+  {
+    id: "yard-house",
+    name: "Yard House",
+    description: "Classic sports bar in the shadow of Fenway Park.",
+    longitude: -71.10029072005652,
+    latitude: 42.34534695338152,
+  },
+];
+
+export const DEFAULT_HOME_LOCATION_OPTION_ID = "hojuku";
+
+const HOME_LOCATION_OPTION_IDS = new Set(
+  HOME_LOCATION_OPTIONS.map((option) => option.id),
+);
+
+export function isHomeLocationOptionId(
+  value: string,
+): value is (typeof HOME_LOCATION_OPTIONS)[number]["id"] {
+  return HOME_LOCATION_OPTION_IDS.has(value);
+}
+
+export function getHomeLocationOption(id: string): HomeLocationOption {
+  return (
+    HOME_LOCATION_OPTIONS.find((option) => option.id === id) ??
+    HOME_LOCATION_OPTIONS[0]
+  );
+}
+
+/** Map pin for the active home base — always uses id "home". */
+export function resolveHomeLocation(optionId: string): HuntLocation {
+  const option = getHomeLocationOption(optionId);
+
+  return {
+    id: "home",
+    name: option.name,
+    description: option.description,
+    longitude: option.longitude,
+    latitude: option.latitude,
+    icon: "house",
+  };
+}
+
+export function buildMapLocations(optionId: string): HuntLocation[] {
+  return [resolveHomeLocation(optionId), ...HUNT_LOCATIONS];
+}
+
+/** @deprecated Use resolveHomeLocation with the active option id. */
+export const HOME_LOCATION = resolveHomeLocation(
+  DEFAULT_HOME_LOCATION_OPTION_ID,
+);
 
 export const HUNT_LOCATIONS: HuntLocation[] = [
   {
@@ -91,5 +156,7 @@ export const HUNT_LOCATIONS: HuntLocation[] = [
   },
 ];
 
-/** Every pin shown on the map: home first, then hunt stops. */
-export const MAP_LOCATIONS: HuntLocation[] = [HOME_LOCATION, ...HUNT_LOCATIONS];
+/** @deprecated Use buildMapLocations with the active option id. */
+export const MAP_LOCATIONS: HuntLocation[] = buildMapLocations(
+  DEFAULT_HOME_LOCATION_OPTION_ID,
+);

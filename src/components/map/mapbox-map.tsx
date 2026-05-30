@@ -4,7 +4,7 @@ import { useCallback, useEffect, useRef } from "react";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 
-import { MAP_LOCATIONS } from "@/data/locations";
+import { useHomeStore } from "@/stores/home-store";
 import {
   mountLocationMarkers,
   unmountLocationMarkers,
@@ -60,6 +60,10 @@ export function MapboxMap({ styleUrl = DEFAULT_MAP_STYLE }: MapboxMapProps) {
     setUserLocationStatus,
   } = useMapStore();
   const userLocation = useMapStore(selectUserLocation);
+  const mapLocations = useHomeStore((state) => state.mapLocations);
+  const mapLocationsRef = useRef(mapLocations);
+
+  mapLocationsRef.current = mapLocations;
 
   const setViewportRef = useRef(setViewport);
   const selectLocationRef = useRef(selectLocation);
@@ -97,7 +101,7 @@ export function MapboxMap({ styleUrl = DEFAULT_MAP_STYLE }: MapboxMapProps) {
       unmountLocationMarkers(markersRef.current);
       markersRef.current = mountLocationMarkers(
         map,
-        MAP_LOCATIONS,
+        mapLocationsRef.current,
         selectedLocationIdRef.current,
         (location) => selectLocationRef.current(location),
       );
@@ -217,11 +221,20 @@ export function MapboxMap({ styleUrl = DEFAULT_MAP_STYLE }: MapboxMapProps) {
 
     updateLocationMarkers(
       markersRef.current,
-      MAP_LOCATIONS,
+      mapLocations,
       selectedLocationId,
       selectLocation,
     );
-  }, [selectedLocationId, selectLocation]);
+  }, [mapLocations, selectedLocationId, selectLocation]);
+
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) {
+      return;
+    }
+
+    syncMarkers(map);
+  }, [mapLocations, syncMarkers]);
 
   useEffect(() => {
     const map = mapRef.current;

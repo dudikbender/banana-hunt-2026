@@ -1,6 +1,11 @@
 import { create } from "zustand";
 
-import { HOME_LOCATION, type HuntLocation } from "@/data/locations";
+import {
+  resolveHomeLocation,
+  DEFAULT_HOME_LOCATION_OPTION_ID,
+  type HuntLocation,
+} from "@/data/locations";
+import { useHomeStore } from "@/stores/home-store";
 
 export interface MapViewport {
   longitude: number;
@@ -21,6 +26,10 @@ export type UserLocationStatus =
   | "unsupported"
   | "error";
 
+function getInitialHomeLocation() {
+  return resolveHomeLocation(DEFAULT_HOME_LOCATION_OPTION_ID);
+}
+
 interface MapState extends MapViewport {
   selectedLocationId: string | null;
   userLocation: UserLocation | null;
@@ -33,15 +42,17 @@ interface MapState extends MapViewport {
   clearUserLocation: () => void;
 }
 
+const initialHome = getInitialHomeLocation();
+
 export const DEFAULT_VIEWPORT: MapViewport = {
-  longitude: HOME_LOCATION.longitude,
-  latitude: HOME_LOCATION.latitude,
+  longitude: initialHome.longitude,
+  latitude: initialHome.latitude,
   zoom: 14,
 };
 
 export const useMapStore = create<MapState>((set) => ({
   ...DEFAULT_VIEWPORT,
-  selectedLocationId: HOME_LOCATION.id,
+  selectedLocationId: initialHome.id,
   userLocation: null,
   userLocationStatus: "idle",
 
@@ -55,11 +66,16 @@ export const useMapStore = create<MapState>((set) => ({
       zoom: 18,
     }),
 
-  resetViewport: () =>
+  resetViewport: () => {
+    const home = useHomeStore.getState().homeLocation;
+
     set({
-      ...DEFAULT_VIEWPORT,
-      selectedLocationId: HOME_LOCATION.id,
-    }),
+      longitude: home.longitude,
+      latitude: home.latitude,
+      zoom: 14,
+      selectedLocationId: home.id,
+    });
+  },
 
   setUserLocation: (location) =>
     set({
